@@ -1,0 +1,49 @@
+package everything;
+
+public class Physics {
+	
+
+	public void Collide() {
+
+	}
+
+	public void Gravity() {
+
+	}
+
+	public double walls(Main m, Ball b) {
+		double nDirection = b.direction;
+		if ((int) b.y > m.getHeight() - b.radius) {
+			System.out.println(m.getHeight() + "\t ");
+			nDirection = -(b.direction);
+			b.velocity += 0.9;
+		}
+		if ((int) b.y < b.radius) {
+			nDirection = -(b.direction);
+			b.velocity -= 0.9;
+		}
+		if ((int) b.x > m.getWidth() - b.radius) {
+			nDirection = 0;
+		}
+
+		return nDirection;
+	}
+
+	public double[] Earth(double velocity, double direction) {
+		// reslove vertically
+		
+		double rVertical = 0;
+		double rHorizontal = 0;
+		 rVertical = (velocity * Math.sin(direction)) ;
+		rVertical = rVertical + 0.9;
+		// resolve horizontally
+		 rHorizontal = velocity * Math.cos(direction);
+		velocity = Math.sqrt(rVertical * rVertical + rHorizontal * rHorizontal);
+		
+		
+		
+		
+
+		return new double[] { velocity, direction };
+	}
+}
