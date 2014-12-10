@@ -1,0 +1,144 @@
+package everything;
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.MouseInfo;
+import java.awt.Point;
+import java.awt.PointerInfo;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+
+
+
+@SuppressWarnings("serial")
+public class Main extends JPanel implements KeyListener, MouseListener {
+	
+	
+
+	private int iWidth, iHeight, iChangex, changey, iMousex, iMousey, iTruex,
+	iTruey;
+	Physics physics = new Physics();
+	Ball Ball = new Ball(500,300,30,100);
+	boolean move = false;
+	
+	public Main() {
+		setSize(1000, 1000);
+		setPreferredSize(new Dimension(1000, 1000));
+		setFocusable(true);
+		addKeyListener(this);
+		addMouseListener(this);
+		Physics Physics  = new Physics();
+		
+	}
+
+	// looping section which redraws frame
+	public void paint(Graphics g) {
+		iWidth = getWidth();
+		iHeight = getHeight();
+		g.setColor(Color.WHITE);
+		g.fillRect(0, 0, iWidth, iHeight);
+		reallign();
+		
+		g.setColor(Color.RED);
+		Ball.run(this,g);
+		g.drawOval(iTruex - 25, iTruey - 25, 50, 50);
+		g.dispose();
+		repaint();
+		try {
+			Thread.sleep(17);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void reallign(){
+		PointerInfo a = MouseInfo.getPointerInfo();
+		Point b = a.getLocation();
+		iMousex = (int) b.getX();
+		iMousey = (int) b.getY();
+		iTruex = iMousex + iChangex;
+		iTruey = iMousey + changey;
+	}
+
+	// Runs on startup, creates JFrame move to paint.
+	public static void main(String args[]) {
+		Main cheese = new Main();
+		JFrame f = new JFrame();
+		f.setResizable(true);
+		f.add(cheese);
+		f.pack(); // f.setBackground(Color.black); // doesn't work
+		f.setTitle("physics engine");
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		f.setLocationRelativeTo(null);
+		f.setVisible(true);
+	}
+	
+	
+	
+	public void mouseClicked(MouseEvent e) {
+		iChangex = e.getX() - iMousex;
+		changey = e.getY() - iMousey;
+		
+	}
+
+	// mouse actions
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		iChangex = e.getX() - iMousex;
+		changey = e.getY() - iMousey;
+		
+	}
+
+	// mouse actions
+	@Override
+	public void mouseExited(MouseEvent e) {
+		iChangex = e.getX() - iMousex;
+		changey = e.getY() - iMousey;
+		
+
+	}
+
+	// mouse actions
+	@Override
+	public void mousePressed(MouseEvent e) {
+
+	}
+
+	// mouse actions
+	@Override
+	public void mouseReleased(MouseEvent e) {
+
+	}
+
+	// key actions
+	public void keyPressed(KeyEvent e) {
+		int k = e.getKeyCode();
+			if (k == KeyEvent.VK_SPACE){
+				if(move == true){
+				move = false;
+				}else{
+					move = true;
+				}
+			}
+	}
+
+	// key actions
+	@Override
+	public void keyReleased(KeyEvent e) {
+
+	}
+	// key actions
+	@Override
+	public void keyTyped(KeyEvent e) {
+
+	}
+}
