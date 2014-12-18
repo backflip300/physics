@@ -12,6 +12,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 
+import java.util.ArrayList;
+import java.util.Random;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -26,7 +29,14 @@ public class Main extends JPanel implements KeyListener, MouseListener {
 	private int iWidth, iHeight, iChangex, changey, iMousex, iMousey, iTruex,
 	iTruey;
 	Physics physics = new Physics();
-	Ball Ball = new Ball(500,500,30,100);
+	int ballcheck = 0;
+	Ball p1 = new Ball(100, 500, 30, 0);
+	Ball p2 = new Ball(300, 500, 30, 0);
+	Ball ball = new Ball(600, 550, 30, 0);
+	
+	
+	ArrayList<Ball> Balls = new ArrayList<Ball>(); 
+	
 	boolean move = false;
 	
 	public Main() {
@@ -35,20 +45,27 @@ public class Main extends JPanel implements KeyListener, MouseListener {
 		setFocusable(true);
 		addKeyListener(this);
 		addMouseListener(this);
-		Physics Physics  = new Physics();
+		Balls.add(ball);
+		Balls.add(p1);
+		Balls.add(p2);
+		
 		
 	}
 
 	// looping section which redraws frame
 	public void paint(Graphics g) {
+		Random Rand = new Random();
 		iWidth = getWidth();
 		iHeight = getHeight();
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, iWidth, iHeight);
 		reallign();
-		
 		g.setColor(Color.RED);
-		Ball.run(this,g);
+		//Balls.add(new Ball(Rand.nextInt(900)+50, Rand.nextInt(900)+50, Rand.nextInt(50)+1, 0));
+		for (ballcheck = 0; ballcheck < Balls.size(); ballcheck++){
+			g.setColor(Color.blue);
+			Balls.get(ballcheck).run(this, g);
+		}
 		g.drawOval(iTruex - 25, iTruey - 25, 50, 50);
 		g.dispose();
 		repaint();
